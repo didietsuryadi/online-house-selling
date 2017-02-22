@@ -100,11 +100,10 @@
   <!-- Page Content -->
   <div class="container" id="root">
     <div class="row">
-      <dt>
-        <!-- accordion tab 2 - Shipping Info -->
-        <a href="#accordion2" aria-expanded="false" aria-controls="accordion2" class="accordion-title accordionTitle js-accordionTrigger">Add New House</a>
-      </dt>
-      <dd class="accordion-content accordionItem is-collapsed" id="accordion2" aria-hidden="true">
+      <button type = "button" class = "btn btn-primary" data-toggle = "collapse" data-target = "#demo">
+        Add New House
+      </button>
+      <dd class="collapse in" id="demo" >
         <div class="container-fluid" style="padding-top: 20px;">
           <p class="headings">Add New House</p>
           <form class="main-container">
@@ -206,7 +205,7 @@
             </div>
             <div class="button-container">
               <button class="btn btn-success" type="submit" @click="addHouse">Submit</button>
-              <button class="btn btn-warning" type="reset">Reset</button>
+              <button class="btn btn-warning" type="reset" @click="resetButton">Reset</button>
             </div>
           </form>
         </div>
@@ -254,8 +253,8 @@
               <p class="product-description">Latitude  : {{ data.lat }}</p>
               <h4 class="price">current price: <span>{{ data.price }}</span></h4>
               <div class="action">
-                <a href="#modal" class="add-to-cart btn btn-default" type="button">Update</a>
-                <button class="like btn btn-danger" type="button"><span class="fa fa-heart">Delete</span></button>
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#update" @click="getHouse(data._id)">Update</button>
+                <button class="btn btn-info btn-lg btn-danger" type="button" @click="deleteHouse(data._id)"><span class="fa fa-heart">Delete</span></button>
               </div>
             </div>
           </div>
@@ -263,47 +262,121 @@
       </div>
     </div>
 
-    <!-- Modal Structure -->
-    <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
-      <div class="modal-dialog" role="document">
+        <!-- Modal -->
+    <div id="update" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="gridSystemModalLabel">Modal title</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">{{ add.title }}</h4>
           </div>
           <div class="modal-body">
             <div class="row">
-              <div class="col-md-4">.col-md-4</div>
-              <div class="col-md-4 col-md-offset-4">.col-md-4 .col-md-offset-4</div>
-            </div>
-            <div class="row">
-              <div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>
-              <div class="col-md-2 col-md-offset-4">.col-md-2 .col-md-offset-4</div>
-            </div>
-            <div class="row">
-              <div class="col-md-6 col-md-offset-3">.col-md-6 .col-md-offset-3</div>
-            </div>
-            <div class="row">
-              <div class="col-sm-9">
-                Level 1: .col-sm-9
-                <div class="row">
-                  <div class="col-xs-8 col-sm-6">
-                    Level 2: .col-xs-8 .col-sm-6
-                  </div>
-                  <div class="col-xs-4 col-sm-6">
-                    Level 2: .col-xs-4 .col-sm-6
-                  </div>
-                </div>
+              <div class="col-xs-4">
+                <label for="title" class="label-style">Title</label>
+              </div>
+              <div class="form-group col-lg-4">
+                <input type="text" id="title" v-model="add.title" class="form-control" placeholder="Title" required>
+              </div>
+              <div class="hint">
+                <i class="hint-icon">i</i>
+                <p class="hint-description">Title for describing house</p>
               </div>
             </div>
+            <div class="row">
+              <div class="col-xs-4">
+                <label for="fullname" class="label-style">Full Name</label>
+              </div>
+              <div class="form-group col-lg-4">
+                <input type="text" id="fullname" v-model="add.fullname" class="form-control" placeholder="Full Name" required>
+              </div>
+              <div class="hint">
+                <i class="hint-icon">i</i>
+                <p class="hint-description">Enter your full name</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-4">
+                <label for="phonenumber" class="label-style">Phone Number</label>
+              </div>
+              <div class="form-group col-lg-4">
+                <input type="text" id="phonenumber" v-model="add.phonenumber" class="form-control" placeholder="Enter Phone Number" required>
+              </div>
+              <div class="hint">
+                <i class="hint-icon">i</i>
+                <p class="hint-description">In (555)5555-555 Format</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-4">
+                <label for="address-line" class="label-style">Address</label>
+              </div>
+              <div class="form-group col-lg-4">
+                <input type="text" id="address-line" v-model="add.address" class="form-control" placeholder="Enter Address" required>
+              </div>
+              <div class="hint">
+                <i class="hint-icon">i</i>
+                <p class="hint-description">Your Full Address</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-4">
+                <label for="price" class="label-style">Price</label>
+              </div>
+              <div class="form-group col-lg-4">
+                <input type="text" id="price" v-model="add.price" class="form-control" placeholder="Enter Price" required>
+              </div>
+              <div class="hint">
+                <i class="hint-icon">i</i>
+                <p class="hint-description">Enter your house price</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-4">
+                <label for="image" class="label-style">Image</label>
+              </div>
+              <div class="form-group col-lg-4">
+                <input type="text" id="image" v-model="add.image" class="form-control" placeholder="Enter Image URL" required>
+              </div>
+              <div class="hint">
+                <i class="hint-icon">i</i>
+                <p class="hint-description">Enter your house image url</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-4">
+                <label for="long" class="label-style">Longitude</label>
+              </div>
+              <div class="form-group col-lg-4">
+                <input type="text" id="long" v-model="add.long" class="form-control" placeholder="Enter Longitude" required>
+              </div>
+              <div class="hint">
+                <i class="hint-icon">i</i>
+                <p class="hint-description">Enter your house longitude url</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-4">
+                <label for="lat" class="label-style">Latitude</label>
+              </div>
+              <div class="form-group col-lg-4">
+                <input type="text" id="lat" v-model="add.lat" class="form-control" placeholder="Enter Latitude" required>
+              </div>
+              <div class="hint">
+                <i class="hint-icon">i</i>
+                <p class="hint-description">Enter your house latitude url</p>
+              </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-info btn-lg btn-danger" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-info btn-lg btn-submit" @click="editHouse(add._id)" data-dismiss="modal">Update</button>
           </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+        </div>
+
+      </div>
+    </div>
     <hr>
 
     <!-- Footer -->
@@ -322,17 +395,20 @@
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <script src="js/script.js"></script>
+
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/form.js"></script>
-
+    <script src="js/script.js"></script>
     <!-- Script to Activate the Carousel -->
     <script>
-    $('.carousel').carousel({
-      interval: 5000 //changes the speed
-    })
+      $('.carousel').carousel({
+        interval: 3000 //changes the speed
+      })
     </script>
+    <script type="text/javascript">
+      $('.modal').modal()
+    </script>
+
 
   </body>
   </html>

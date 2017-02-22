@@ -1,4 +1,4 @@
-(function() {
+(function accordion() {
 var d = document,
 accordionToggles = d.querySelectorAll('.js-accordionTrigger'),
 setAria,
