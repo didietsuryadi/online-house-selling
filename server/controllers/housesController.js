@@ -22,8 +22,13 @@ module.exports = {
       res.send(data)
     })
   },
-  updateQuantity: function(req,res) {
-    House.find({_id: req.body.id},{
+  getHouseById: function(req,res) {
+    House.findOne({_id:req.params.id}).then(function(data){
+      res.send(data)
+    })
+  },
+  updateHouse: function(req,res) {
+    House.findOneAndUpdate({_id: req.params.id},{
       title: req.body.title,
       fullname: req.body.fullname,
       phonenumber: req.body.phonenumber,
@@ -34,6 +39,12 @@ module.exports = {
       lat: req.body.lat
     },{new: true}).then(function(data){
       res.send(data)
+    })
+  },
+  deleteHouse: function(req,res){
+    House.findOneAndRemove({_id: req.params.id})
+    .then(function(data){
+      res.send('House Deleted')
     })
   }
 }
